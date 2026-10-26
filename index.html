@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jasbug & Syntax Shop - Powered By SammOffc</title>
+    <title>Enterprise Portal & Support | SammOffc</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -19,14 +19,13 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        cyber: {
-                            dark: '#0a0d14',
-                            card: '#121824',
-                            accent: '#00f2fe',
-                            purple: '#7928ca',
-                            pink: '#ff0080',
-                            success: '#10b981',
-                            danger: '#ef4444'
+                        enterprise: {
+                            bg: '#f8fafc',
+                            card: '#ffffff',
+                            primary: '#0284c7',
+                            dark: '#0f172a',
+                            border: '#e2e8f0',
+                            text: '#334155'
                         }
                     }
                 }
@@ -36,52 +35,46 @@
 
     <style>
         body {
-            background-color: #0a0d14;
-            color: #e2e8f0;
+            background-color: #f8fafc;
+            color: #334155;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        .glass-panel {
-            background: rgba(18, 24, 36, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        .pro-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
         }
 
-        .glass-button {
-            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(121, 40, 202, 0.2));
-            border: 1px solid rgba(0, 242, 254, 0.4);
-            transition: all 0.3s ease;
+        .pro-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            border-color: #cbd5e1;
         }
 
-        .glass-button:hover {
-            background: linear-gradient(135deg, rgba(0, 242, 254, 0.4), rgba(121, 40, 202, 0.4));
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
-            transform: translateY(-2px);
+        .pro-button {
+            background-color: #0284c7;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .pro-button:hover {
+            background-color: #0369a1;
         }
 
         ::-webkit-scrollbar {
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #0a0d14;
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1e293b;
+            background: #cbd5e1;
             border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #00f2fe;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.6)); }
-            50% { filter: drop-shadow(0 0 25px rgba(121, 40, 202, 0.8)); }
-        }
-        .glow-effect {
-            animation: pulseGlow 3s infinite ease-in-out;
+            background: #94a3b8;
         }
 
         .chat-container {
@@ -90,62 +83,59 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+<body class="min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white">
 
     <audio id="notifSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <!-- 1. LOADING SCREEN -->
-    <div id="loadingScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-cyber-dark">
-        <div class="relative flex items-center justify-center mb-6">
-            <div class="w-24 h-24 rounded-full border-t-2 border-b-2 border-cyan-400 animate-spin"></div>
-            <div class="w-16 h-16 rounded-full border-r-2 border-l-2 border-purple-500 animate-spin absolute" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
-            <i class="fa-solid fa-code text-3xl text-cyan-400 absolute glow-effect"></i>
+    <div id="loadingScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-900 text-white">
+        <div class="relative flex items-center justify-center mb-4">
+            <div class="w-16 h-16 rounded-full border-t-2 border-b-2 border-sky-400 animate-spin"></div>
         </div>
-        <h1 class="text-2xl md:text-3xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 mb-2">
-            𝙋𝙤𝙬𝙚𝙧𝙚𝙙 𝘽𝙮 𝙎𝙖𝙢𝙢𝙊𝙛𝙛𝙘
+        <h1 class="text-xl font-bold tracking-tight text-white mb-1">
+            Powered By SammOffc
         </h1>
-        <p class="text-xs text-gray-400 animate-pulse tracking-wider">Memuat Sistem Store & Transaksi...</p>
+        <p class="text-xs text-slate-400 tracking-wider">Memuat Sistem Enterprise...</p>
     </div>
 
     <!-- MAIN APP WRAPPER -->
     <div id="appContainer" class="hidden min-h-screen flex flex-col">
 
         <!-- NAVBAR -->
-        <nav class="glass-panel sticky top-0 z-40 px-4 py-3 flex justify-between items-center border-b border-gray-800">
+        <nav class="bg-white border-b border-slate-200 sticky top-0 z-40 px-4 py-3 flex justify-between items-center shadow-xs">
             <div class="flex items-center gap-2">
-                <i class="fa-solid fa-terminal text-cyan-400 text-xl"></i>
-                <span class="font-bold text-lg tracking-wider text-white">Samm<span class="text-cyan-400">Offc Store</span></span>
+                <div class="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center text-white font-bold text-sm">
+                    SO
+                </div>
+                <span class="font-bold text-base tracking-tight text-slate-900">SammOffc<span class="text-sky-600"> Enterprise</span></span>
             </div>
             <div id="userInfoNav" class="hidden flex items-center gap-3">
-                <span id="navUsername" class="text-sm font-medium text-cyan-300 bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-800/50">
-                    <i class="fa-regular fa-user mr-1"></i> -
+                <span id="navUsername" class="text-xs font-medium text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+                    <i class="fa-regular fa-user mr-1 text-sky-600"></i> -
                 </span>
-                <button onclick="logout()" class="text-xs bg-red-500/20 hover:bg-red-500/40 text-red-400 px-3 py-1.5 rounded-lg border border-red-500/30 transition">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                <button onclick="logout()" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg border border-red-200 transition font-medium">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Keluar
                 </button>
             </div>
         </nav>
 
         <!-- MAIN CONTAINER -->
-        <main class="flex-grow container mx-auto px-4 py-6 max-w-5xl flex flex-col justify-center">
+        <main class="flex-grow container mx-auto px-4 py-8 max-w-5xl flex flex-col justify-center">
 
             <!-- 2. HALAMAN LOGIN / REGISTER -->
             <section id="authSection" class="w-full max-w-md mx-auto">
-                <div class="glass-panel p-6 md:p-8 rounded-2xl shadow-2xl relative overflow-hidden">
-                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
-                    <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl"></div>
-
+                <div class="pro-card p-6 md:p-8 rounded-xl shadow-sm">
                     <div class="text-center mb-6">
-                        <h2 class="text-2xl font-bold text-white mb-1">Portal Layanan</h2>
-                        <p class="text-xs text-gray-400">Masuk atau daftar untuk mengakses katalog produk.</p>
+                        <h2 class="text-xl font-bold text-slate-900 mb-1">Portal Autentikasi</h2>
+                        <p class="text-xs text-slate-500">Masuk atau buat akun baru untuk mengakses layanan.</p>
                     </div>
 
-                    <div class="flex bg-gray-900/80 p-1 rounded-xl mb-6 border border-gray-800">
-                        <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-lg text-sm font-semibold transition text-cyan-400 bg-gray-800 shadow">
-                            Login
+                    <div class="flex bg-slate-100 p-1 rounded-lg mb-6 border border-slate-200">
+                        <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-md text-xs font-semibold transition text-sky-700 bg-white shadow-xs">
+                            Masuk
                         </button>
-                        <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-2 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white">
-                            Register
+                        <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-2 rounded-md text-xs font-semibold transition text-slate-500 hover:text-slate-800">
+                            Daftar
                         </button>
                     </div>
 
@@ -154,52 +144,32 @@
                     <!-- FORM LOGIN -->
                     <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-300 mb-1">Username</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                                    <i class="fa-solid fa-user text-sm"></i>
-                                </span>
-                                <input type="text" id="loginUsername" required class="w-full pl-9 pr-3 py-2.5 bg-gray-900/90 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 transition" placeholder="Masukkan username">
-                            </div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Username</label>
+                            <input type="text" id="loginUsername" required class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-sky-500 transition" placeholder="Masukkan username">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-300 mb-1">Password</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                                    <i class="fa-solid fa-lock text-sm"></i>
-                                </span>
-                                <input type="password" id="loginPassword" required class="w-full pl-9 pr-3 py-2.5 bg-gray-900/90 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 transition" placeholder="••••••••">
-                            </div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+                            <input type="password" id="loginPassword" required class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-sky-500 transition" placeholder="••••••••">
                         </div>
-                        <button type="submit" class="w-full py-3 glass-button rounded-xl text-sm font-bold text-white tracking-wider uppercase flex items-center justify-center gap-2">
-                            <span>Masuk Akun</span>
-                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        <button type="submit" class="w-full py-2.5 pro-button rounded-lg text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2">
+                            <span>Masuk Sistem</span>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </form>
 
                     <!-- FORM REGISTER -->
                     <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-300 mb-1">Username Baru</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                                    <i class="fa-solid fa-user-plus text-sm"></i>
-                                </span>
-                                <input type="text" id="regUsername" required class="w-full pl-9 pr-3 py-2.5 bg-gray-900/90 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 transition" placeholder="Buat username unik">
-                            </div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Username Baru</label>
+                            <input type="text" id="regUsername" required class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-sky-500 transition" placeholder="Buat username unik">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-300 mb-1">Password</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                                    <i class="fa-solid fa-key text-sm"></i>
-                                </span>
-                                <input type="password" id="regPassword" required class="w-full pl-9 pr-3 py-2.5 bg-gray-900/90 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 transition" placeholder="Minimal 6 karakter">
-                            </div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+                            <input type="password" id="regPassword" required class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-sky-500 transition" placeholder="Minimal 6 karakter">
                         </div>
-                        <button type="submit" class="w-full py-3 glass-button rounded-xl text-sm font-bold text-white tracking-wider uppercase flex items-center justify-center gap-2">
-                            <span>Daftar Sekarang</span>
-                            <i class="fa-solid fa-check text-xs"></i>
+                        <button type="submit" class="w-full py-2.5 pro-button rounded-lg text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2">
+                            <span>Daftar Akun</span>
+                            <i class="fa-solid fa-check text-[10px]"></i>
                         </button>
                     </form>
                 </div>
@@ -209,16 +179,16 @@
             <section id="shopSection" class="hidden">
                 <div class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-extrabold text-white">Katalog Produk <span class="text-cyan-400">Resmi</span></h1>
-                        <p class="text-sm text-gray-400 mt-1">Pilih layanan Jasbug atau Script Syntax sesuai kebutuhan Anda.</p>
+                        <h1 class="text-2xl font-bold text-slate-900">Katalog Produk & Layanan</h1>
+                        <p class="text-xs text-slate-500 mt-0.5">Silahkan pilih produk Jasbug atau Script Syntax sesuai kebutuhan Anda.</p>
                     </div>
-                    <div class="bg-gray-900/80 px-4 py-2 rounded-xl border border-gray-800 text-xs text-gray-300">
-                        <i class="fa-solid fa-signal text-green-400 mr-2"></i>Sistem Bot Tele Live
+                    <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-600 shadow-xs">
+                        <i class="fa-solid fa-circle text-emerald-500 text-[8px] mr-1.5"></i> Sistem Aktif
                     </div>
                 </div>
 
                 <!-- Product Grid (7 Produk) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="productGridContainer">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="productGridContainer">
                     <!-- Dynamic Rendering via JavaScript -->
                 </div>
             </section>
@@ -226,46 +196,45 @@
             <!-- 4. HALAMAN TRANSAKSI (CHECKOUT) -->
             <section id="checkoutSection" class="hidden">
                 <div class="mb-4">
-                    <button onclick="goToShop()" class="inline-flex items-center gap-2 text-xs text-gray-400 hover:text-cyan-400 transition mb-2">
-                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Katalog Produk
+                    <button onclick="goToShop()" class="inline-flex items-center gap-2 text-xs text-slate-500 hover:text-sky-600 transition mb-2 font-medium">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Katalog
                     </button>
-                    <h2 class="text-2xl font-bold text-white">Detail Transaksi: <span id="selectedProdTitle" class="text-cyan-400"></span></h2>
+                    <h2 class="text-xl font-bold text-slate-900">Pembayaran: <span id="selectedProdTitle" class="text-sky-600"></span></h2>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     <!-- Kiri: QRIS & Form Upload -->
-                    <div class="lg:col-span-6 glass-panel p-6 rounded-2xl flex flex-col items-center">
-                        <!-- Teks Pesan Transaksi -->
-                        <p id="txNoticeText" class="text-xs text-cyan-200 text-center font-medium bg-cyan-950/40 p-3 rounded-xl border border-cyan-800/40 mb-4 leading-relaxed">
+                    <div class="lg:col-span-6 pro-card p-6 rounded-xl flex flex-col items-center">
+                        <p id="txNoticeText" class="text-xs text-slate-600 text-center font-medium bg-slate-50 p-3 rounded-lg border border-slate-200 mb-4 leading-relaxed">
                             <!-- Text updated dynamically -->
                         </p>
 
                         <!-- Gambar QRIS -->
-                        <div class="relative bg-white p-3 rounded-2xl shadow-xl mb-4 max-w-[220px]">
-                            <img id="qrisImg" src="https://files.catbox.moe/cvmxrr.jpg" alt="QRIS Payment" class="w-full rounded-lg object-cover" onerror="this.src='https://placehold.co/250x250/121824/00f2fe?text=QRIS+SammOffc'">
+                        <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs mb-4 max-w-[200px]">
+                            <img id="qrisImg" src="https://files.catbox.moe/cvmxrr.jpg" alt="QRIS Payment" class="w-full rounded object-cover" onerror="this.src='https://placehold.co/200x200/ffffff/0284c7?text=QRIS'">
                         </div>
 
                         <!-- Info Harga -->
-                        <div class="w-full bg-gray-900/80 p-3 rounded-xl border border-gray-800 mb-4 flex justify-between items-center text-xs">
-                            <span class="text-gray-400">Total Tagihan:</span>
-                            <span id="selectedProdPrice" class="text-lg font-extrabold text-cyan-400">Rp 0</span>
+                        <div class="w-full bg-slate-50 p-3 rounded-lg border border-slate-200 mb-4 flex justify-between items-center text-xs">
+                            <span class="text-slate-500 font-medium">Total Pembayaran:</span>
+                            <span id="selectedProdPrice" class="text-base font-bold text-sky-600">Rp 0</span>
                         </div>
 
                         <!-- Upload Bukti Transfer Form -->
                         <div class="w-full space-y-3">
                             <div>
-                                <label class="block text-xs font-semibold text-gray-300 mb-1.5">Upload Bukti Transfer</label>
-                                <input type="file" id="proofInput" accept="image/*" class="block w-full text-xs text-gray-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30 cursor-pointer bg-gray-900/60 rounded-xl border border-gray-700">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Bukti Transfer (Opsional)</label>
+                                <input type="file" id="proofInput" accept="image/*" class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 cursor-pointer bg-slate-50 rounded-lg border border-slate-200">
                             </div>
 
-                            <button id="btnSendProofOnly" onclick="sendProofNotificationOnly()" class="w-full py-2.5 bg-gray-800 hover:bg-gray-700 text-cyan-300 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 border border-cyan-500/30">
-                                <i class="fa-solid fa-file-arrow-up"></i>
-                                <span>Kirim Bukti Transfer</span>
+                            <button id="btnSendProofOnly" onclick="sendProofNotificationOnly()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-2 border border-slate-200">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span>Kirim Bukti Saja</span>
                             </button>
 
-                            <button id="btnFinishTx" onclick="submitTransaction()" class="w-full py-3.5 glass-button rounded-xl text-sm font-extrabold text-white tracking-wider flex items-center justify-center gap-2">
+                            <button id="btnFinishTx" onclick="submitTransaction()" class="w-full py-2.5 pro-button rounded-lg text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs">
                                 <i class="fa-solid fa-paper-plane"></i>
-                                <span>𝙎𝙚𝙡𝙚𝙨𝙖𝙞 𝙏𝙧𝙖𝙣𝙨𝙛𝙚𝘳</span>
+                                <span>Selesai Transfer</span>
                             </button>
                         </div>
                     </div>
@@ -273,46 +242,42 @@
                     <!-- Kanan: Status & Live Chat Admin -->
                     <div class="lg:col-span-6 flex flex-col gap-4">
                         <!-- Alert Box Notifikasi Admin -->
-                        <div id="noticeBox" class="glass-panel p-4 rounded-2xl border-l-4 border-cyan-400 relative">
-                            <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                                <i class="fa-solid fa-circle-info"></i> Status Konfirmasi
+                        <div class="pro-card p-4 rounded-xl border-l-4 border-sky-600 relative">
+                            <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wide mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-info text-sky-600"></i> Informasi Status
                             </h4>
-                            <p id="adminStatusMsg" class="text-[11px] text-gray-300 leading-relaxed italic">
+                            <p id="adminStatusMsg" class="text-xs text-slate-600 leading-relaxed">
                                 Lakukan transfer sesuai nominal lalu upload bukti pembayaran di sebelah kiri.
                             </p>
 
-                            <div class="mt-3 pt-3 border-t border-gray-800/80 flex items-center justify-between">
-                                <span class="text-[10px] text-gray-400">Aktifkan Notifikasi Web:</span>
-                                <button onclick="requestNotificationPermission()" class="text-[10px] bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 px-3 py-1 rounded-lg transition flex items-center gap-1">
-                                    <i class="fa-regular fa-bell"></i>
-                                    <span>Aktifkan Notif</span>
+                            <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
+                                <span class="text-[11px] text-slate-500">Notifikasi Browser:</span>
+                                <button onclick="requestNotificationPermission()" class="text-[11px] bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 px-3 py-1 rounded-md transition font-medium">
+                                    <i class="fa-regular fa-bell mr-1"></i> Aktifkan
                                 </button>
                             </div>
                         </div>
 
-                        <!-- LIVE CHAT BOX (TRANSACTION CHAT) -->
-                        <div class="glass-panel p-4 rounded-2xl flex-grow flex flex-col justify-between border border-gray-800">
-                            <div class="flex items-center justify-between pb-3 border-b border-gray-800 mb-3">
+                        <!-- LIVE CHAT BOX -->
+                        <div class="pro-card p-4 rounded-xl flex-grow flex flex-col justify-between">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
                                 <div class="flex items-center gap-2">
-                                    <span class="relative flex h-2.5 w-2.5">
-                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
-                                    </span>
-                                    <span class="text-xs font-bold text-white">Live Support Telegram Bot</span>
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                    <span class="text-xs font-bold text-slate-800">Live Support Admin</span>
                                 </div>
-                                <span class="text-[10px] text-gray-500">Auto Polling</span>
+                                <span class="text-[10px] text-slate-400">Terhubung</span>
                             </div>
 
                             <div id="chatMessages" class="chat-container space-y-3 pr-1 text-xs mb-3 flex flex-col">
-                                <div class="self-start max-w-[85%] bg-gray-900/90 text-gray-300 p-3 rounded-2xl rounded-tl-none border border-gray-800">
-                                    <span class="text-[9px] text-cyan-400 font-bold block mb-0.5">SammOffc Bot</span>
-                                    Halo! Setelah melakukan pembayaran, tekan tombol <b>𝙎𝙚𝙡𝙚𝙨𝙖𝙞 𝙏𝙧𝙖𝙣𝙨𝙛𝙚𝘳</b> untuk memanggil Admin.
+                                <div class="self-start max-w-[85%] bg-slate-100 text-slate-700 p-3 rounded-lg rounded-tl-none border border-slate-200">
+                                    <span class="text-[10px] text-sky-600 font-bold block mb-0.5">SammOffc System</span>
+                                    Halo! Setelah melakukan pembayaran, tekan tombol <b>Selesai Transfer</b> untuk verifikasi otomatis.
                                 </div>
                             </div>
 
                             <form onsubmit="sendUserChatMessage(event)" class="flex gap-2">
-                                <input type="text" id="chatInput" placeholder="Ketik pesan ke Admin..." class="flex-grow bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400">
-                                <button type="submit" class="glass-button px-4 py-2 rounded-xl text-white text-xs font-bold flex items-center justify-center">
+                                <input type="text" id="chatInput" placeholder="Tulis pesan ke admin..." class="flex-grow bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-sky-500">
+                                <button type="submit" class="pro-button px-4 py-2 rounded-lg text-white text-xs font-bold flex items-center justify-center">
                                     <i class="fa-solid fa-paper-plane"></i>
                                 </button>
                             </form>
@@ -324,54 +289,41 @@
         </main>
 
         <!-- FOOTER -->
-        <footer class="glass-panel py-3 px-4 text-center text-xs text-gray-500 border-t border-gray-800 mt-6">
-            © 2026 <span class="text-cyan-400 font-semibold">𝙋𝙤𝙬𝙚𝙧𝙚𝙙 𝘽𝙮 𝙎𝙖𝙢𝙢Ofscc</span>. All Rights Reserved.
+        <footer class="bg-white py-3 px-4 text-center text-xs text-slate-500 border-t border-slate-200 mt-6">
+            © 2026 <span class="text-slate-700 font-medium">Powered By SammOffc</span>. All Rights Reserved.
         </footer>
     </div>
 
-    <!-- 5. FLOATING CUSTOMER SERVICE CHAT WIDGET & MODAL -->
-    <div id="csFloatingContainer" class="hidden fixed bottom-5 right-5 z-50">
-        <!-- CS Trigger Button -->
-        <button id="csToggleBtn" onclick="toggleCsModal()" class="relative glass-button p-4 rounded-full shadow-2xl flex items-center justify-center text-white glow-effect group hover:scale-110 transition">
-            <i class="fa-solid fa-headset text-2xl text-cyan-400 group-hover:rotate-12 transition"></i>
-            <span id="csBadge" class="hidden absolute -top-1 -right-1 flex h-4 w-4">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-4 w-4 bg-pink-500 text-[9px] text-white font-bold items-center justify-center">!</span>
-            </span>
+    <!-- CUSTOMER SERVICE FLOATING WIDGET -->
+    <div class="fixed bottom-5 right-5 z-50">
+        <button onclick="toggleCsModal()" id="csToggleBtn" class="w-12 h-12 bg-sky-600 hover:bg-sky-700 text-white rounded-full shadow-lg flex items-center justify-center text-lg transition duration-200 focus:outline-none">
+            <i class="fa-solid fa-headset"></i>
         </button>
 
-        <!-- CS Chat Modal Window -->
-        <div id="csModal" class="hidden absolute bottom-16 right-0 w-[90vw] max-w-[360px] h-[480px] glass-panel rounded-2xl shadow-2xl flex flex-col justify-between border border-cyan-500/30 overflow-hidden">
-            <!-- Header -->
-            <div class="bg-gray-900/90 px-4 py-3 border-b border-gray-800 flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-400">
-                        <i class="fa-solid fa-headset text-sm"></i>
-                    </div>
+        <div id="csModal" class="hidden absolute bottom-16 right-0 w-80 sm:w-96 pro-card rounded-xl shadow-xl overflow-hidden flex flex-col border border-slate-200">
+            <div class="bg-slate-900 text-white p-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-full bg-sky-600 flex items-center justify-center text-xs font-bold">CS</div>
                     <div>
-                        <h3 class="text-xs font-bold text-white">Customer Service</h3>
-                        <p class="text-[9px] text-cyan-400 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Online Support
-                        </p>
+                        <h4 class="text-xs font-bold">Customer Service</h4>
+                        <p class="text-[10px] text-slate-400">Online • Siap Membantu</p>
                     </div>
                 </div>
-                <button onclick="toggleCsModal()" class="text-gray-400 hover:text-white text-sm px-2 py-1">
+                <button onclick="toggleCsModal()" class="text-slate-400 hover:text-white text-sm">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
-            <!-- Messages Area -->
-            <div id="csChatMessages" class="flex-grow p-3 space-y-3 overflow-y-auto text-xs">
-                <div class="self-start max-w-[90%] bg-gray-900/90 text-gray-300 p-3 rounded-2xl rounded-tl-none border border-gray-800">
-                    <span class="text-[9px] text-cyan-400 font-bold block mb-0.5">CS SammOffc</span>
-                    Halo! Ada yang bisa kami bantu seputar produk atau bantuan transaksi? Silakan ketik pesan Anda di bawah ini.
+            <div id="csChatMessages" class="p-3 bg-slate-50 chat-container space-y-2.5 text-xs flex flex-col">
+                <div class="self-start max-w-[85%] bg-white text-slate-700 p-2.5 rounded-lg rounded-tl-none border border-slate-200 shadow-2xs">
+                    <span class="text-[10px] text-sky-600 font-bold block mb-0.5">SammOffc CS</span>
+                    Halo! Ada yang bisa kami bantu mengenai produk atau transaksi Anda?
                 </div>
             </div>
 
-            <!-- Input Form -->
-            <form onsubmit="sendCsChatMessage(event)" class="p-3 bg-gray-900/90 border-t border-gray-800 flex gap-2">
-                <input type="text" id="csChatInput" placeholder="Tanyakan sesuatu ke CS..." class="flex-grow bg-gray-950 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400">
-                <button type="submit" class="glass-button px-3.5 py-2 rounded-xl text-white text-xs font-bold flex items-center justify-center">
+            <form onsubmit="sendCsMessage(event)" class="p-2.5 bg-white border-t border-slate-200 flex gap-2">
+                <input type="text" id="csInput" placeholder="Ketik pesan bantuan..." class="flex-grow bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-sky-500">
+                <button type="submit" class="pro-button px-3 py-2 rounded-lg text-white text-xs font-bold">
                     <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </form>
@@ -385,15 +337,15 @@
         const OWNER_ID = "8448243337";
         const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
-        // PRODUCTS DATA (7 Produk Sesuai Request)
+        // PRODUCTS DATA (7 Produk)
         const PRODUCTS = [
-            { id: 1, name: "Jasbug", price: 4000, label: "4k", desc: "Layanan pengerjaan & penanganan bug khusus secara professional.", icon: "fa-bug", color: "cyan" },
-            { id: 2, name: "Script Syntax No Up", price: 7000, label: "7k", desc: "Script syntax versi standar tanpa update berkala.", icon: "fa-code", color: "purple" },
-            { id: 3, name: "Script Syntax Reseller", price: 15000, label: "15k", desc: "Akses hak jual kembali script syntax khusus reseller.", icon: "fa-store", color: "blue" },
-            { id: 4, name: "Script Syntax Partner", price: 25000, label: "25k", desc: "Kemitraan resmi dengan dukungan fitur script eksklusif.", icon: "fa-handshake", color: "emerald" },
-            { id: 5, name: "Script Syntax TK", price: 35000, label: "35k", desc: "Versi TK fitur lengkap untuk pengerjaan skala menengah.", icon: "fa-layer-group", color: "amber" },
-            { id: 6, name: "Script Syntax Moderator", price: 45000, label: "45k", desc: "Hak akses moderator serta kontrol penuh fitur syntax.", icon: "fa-user-shield", color: "pink" },
-            { id: 7, name: "Script Syntax Owner", price: 50000, label: "50k", desc: "Akses kasta tertinggi (Owner Level) full akses tanpa batas.", icon: "fa-crown", color: "red" }
+            { id: 1, name: "Jasbug", price: 4000, label: "4k", desc: "Layanan pengerjaan & penanganan bug khusus secara professional.", icon: "fa-bug" },
+            { id: 2, name: "Script Syntax No Up", price: 7000, label: "7k", desc: "Script syntax versi standar tanpa update berkala.", icon: "fa-code" },
+            { id: 3, name: "Script Syntax Reseller", price: 15000, label: "15k", desc: "Akses hak jual kembali script syntax khusus reseller.", icon: "fa-store" },
+            { id: 4, name: "Script Syntax Partner", price: 25000, label: "25k", desc: "Kemitraan resmi dengan dukungan fitur script eksklusif.", icon: "fa-handshake" },
+            { id: 5, name: "Script Syntax TK", price: 35000, label: "35k", desc: "Versi TK fitur lengkap untuk pengerjaan skala menengah.", icon: "fa-layer-group" },
+            { id: 6, name: "Script Syntax Moderator", price: 45000, label: "45k", desc: "Hak akses moderator serta kontrol penuh fitur syntax.", icon: "fa-user-shield" },
+            { id: 7, name: "Script Syntax Owner", price: 50000, label: "50k", desc: "Akses kasta tertinggi (Owner Level) full akses tanpa batas.", icon: "fa-crown" }
         ];
 
         // GLOBAL STATE
@@ -401,7 +353,6 @@
         let selectedProduct = null;
         let lastUpdateId = 0;
         let pollingInterval = null;
-        let isCsOpen = false;
 
         // INITIALIZATION
         window.onload = function() {
@@ -410,30 +361,30 @@
                 document.getElementById('loadingScreen').classList.add('hidden');
                 document.getElementById('appContainer').classList.remove('hidden');
                 checkSession();
-            }, 2000);
+            }, 1500);
         };
 
         function renderProductCatalog() {
             const container = document.getElementById('productGridContainer');
             container.innerHTML = PRODUCTS.map(prod => `
-                <div class="glass-panel p-5 rounded-2xl relative flex flex-col justify-between border border-gray-800 hover:border-cyan-500/50 transition duration-300 group">
+                <div class="pro-card p-5 rounded-xl flex flex-col justify-between group">
                     <div>
                         <div class="flex items-center justify-between mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-lg group-hover:scale-110 transition">
+                            <div class="w-9 h-9 rounded-lg bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 text-sm group-hover:scale-105 transition">
                                 <i class="fa-solid ${prod.icon}"></i>
                             </div>
-                            <span class="text-xs font-bold text-cyan-300 bg-cyan-950/60 px-2.5 py-1 rounded-full border border-cyan-800/50">
+                            <span class="text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-md border border-sky-100">
                                 Rp ${prod.price.toLocaleString('id-ID')} (${prod.label})
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-1.5">${prod.name}</h3>
-                        <p class="text-xs text-gray-400 leading-relaxed mb-4">${prod.desc}</p>
+                        <h3 class="text-sm font-bold text-slate-900 mb-1">${prod.name}</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed mb-4">${prod.desc}</p>
                     </div>
-                    <div class="pt-3 border-t border-gray-800/80 flex items-center justify-between">
-                        <span class="text-[10px] text-gray-500">Powered By SammOffc</span>
-                        <button onclick="openCheckout(${prod.id})" class="px-4 py-2 glass-button rounded-xl text-xs font-bold text-white flex items-center gap-1.5">
-                            <span>Beli Sekarang</span>
-                            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                        <span class="text-[10px] text-slate-400">SammOffc</span>
+                        <button onclick="openCheckout(${prod.id})" class="px-3 py-1.5 pro-button rounded-lg text-xs font-semibold text-white flex items-center gap-1.5 shadow-2xs">
+                            <span>Pilih</span>
+                            <i class="fa-solid fa-chevron-right text-[9px]"></i>
                         </button>
                     </div>
                 </div>
@@ -467,13 +418,13 @@
             if (tab === 'login') {
                 loginForm.classList.remove('hidden');
                 regForm.classList.add('hidden');
-                tabLoginBtn.className = "flex-1 py-2 rounded-lg text-sm font-semibold transition text-cyan-400 bg-gray-800 shadow";
-                tabRegBtn.className = "flex-1 py-2 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white";
+                tabLoginBtn.className = "flex-1 py-2 rounded-md text-xs font-semibold transition text-sky-700 bg-white shadow-xs";
+                tabRegBtn.className = "flex-1 py-2 rounded-md text-xs font-semibold transition text-slate-500 hover:text-slate-800";
             } else {
                 loginForm.classList.add('hidden');
                 regForm.classList.remove('hidden');
-                tabRegBtn.className = "flex-1 py-2 rounded-lg text-sm font-semibold transition text-cyan-400 bg-gray-800 shadow";
-                tabLoginBtn.className = "flex-1 py-2 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white";
+                tabRegBtn.className = "flex-1 py-2 rounded-md text-xs font-semibold transition text-sky-700 bg-white shadow-xs";
+                tabLoginBtn.className = "flex-1 py-2 rounded-md text-xs font-semibold transition text-slate-500 hover:text-slate-800";
             }
         }
 
@@ -481,8 +432,8 @@
             const alertBox = document.getElementById('authAlert');
             alertBox.classList.remove('hidden');
             alertBox.className = type === 'error' 
-                ? "mb-4 p-3 rounded-lg text-xs font-medium border bg-red-500/10 border-red-500/30 text-red-400"
-                : "mb-4 p-3 rounded-lg text-xs font-medium border bg-green-500/10 border-green-500/30 text-green-400";
+                ? "mb-4 p-3 rounded-lg text-xs font-medium border bg-red-50 border-red-200 text-red-600"
+                : "mb-4 p-3 rounded-lg text-xs font-medium border bg-emerald-50 border-emerald-200 text-emerald-600";
             alertBox.innerText = msg;
         }
 
@@ -499,7 +450,7 @@
             users[username] = { password: password };
             localStorage.setItem('samm_users', JSON.stringify(users));
             
-            showAuthAlert('Registrasi Berhasil! Silahkan Login.', 'success');
+            showAuthAlert('Registrasi Berhasil! Silahkan Masuk.', 'success');
             setTimeout(() => {
                 switchAuthTab('login');
                 document.getElementById('loginUsername').value = username;
@@ -534,7 +485,6 @@
             document.getElementById('shopSection').classList.add('hidden');
             document.getElementById('checkoutSection').classList.add('hidden');
             document.getElementById('userInfoNav').classList.add('hidden');
-            document.getElementById('csFloatingContainer').classList.add('hidden');
         }
 
         function showShopPage() {
@@ -542,8 +492,7 @@
             document.getElementById('shopSection').classList.remove('hidden');
             document.getElementById('checkoutSection').classList.add('hidden');
             document.getElementById('userInfoNav').classList.remove('hidden');
-            document.getElementById('csFloatingContainer').classList.remove('hidden');
-            document.getElementById('navUsername').innerHTML = `<i class="fa-regular fa-user mr-1"></i> ${currentUser}`;
+            document.getElementById('navUsername').innerHTML = `<i class="fa-regular fa-user mr-1 text-sky-600"></i> ${currentUser}`;
             startTelegramPolling();
         }
 
@@ -553,7 +502,7 @@
 
             document.getElementById('selectedProdTitle').innerText = selectedProduct.name;
             document.getElementById('selectedProdPrice').innerText = `Rp ${selectedProduct.price.toLocaleString('id-ID')} (${selectedProduct.label})`;
-            document.getElementById('txNoticeText').innerText = `𝘚𝘪𝘭𝘢𝘩𝘬𝘢𝘯 𝘵𝘳𝘢𝘯𝘴𝘧𝘦𝘳 𝘬𝘦 𝘲𝘳𝘪𝘴 𝘥𝘪𝘣𝘢𝘸𝘢𝘩 𝘪𝘯𝘪 𝘶𝘯𝘵𝘶𝘬 𝘮𝘦𝘭𝘢𝘯𝘫𝘶𝘵𝘬𝘢𝘯 𝘵𝘳𝘢𝘯𝘴𝘢𝘬𝘴𝘪 ${selectedProduct.name}.`;
+            document.getElementById('txNoticeText').innerText = `Silahkan transfer ke QRIS dibawah ini untuk melanjutkan transaksi ${selectedProduct.name}.`;
 
             document.getElementById('shopSection').classList.add('hidden');
             document.getElementById('checkoutSection').classList.remove('hidden');
@@ -564,63 +513,11 @@
             document.getElementById('shopSection').classList.remove('hidden');
         }
 
-        // FLOATING CS WIDGET LOGIC
-        function toggleCsModal() {
-            const modal = document.getElementById('csModal');
-            const badge = document.getElementById('csBadge');
-            isCsOpen = !isCsOpen;
-
-            if (isCsOpen) {
-                modal.classList.remove('hidden');
-                badge.classList.add('hidden');
-            } else {
-                modal.classList.add('hidden');
-            }
-        }
-
-        async function sendCsChatMessage(e) {
-            e.preventDefault();
-            const input = document.getElementById('csChatInput');
-            const msg = input.value.trim();
-            if (!msg) return;
-
-            addCsChatMessage("You", msg);
-            input.value = "";
-
-            const textToSend = `🎧 <b>CS INQUIRY FROM USER</b>\n👤 <b>Username:</b> <code>${currentUser}</code>\n✉️ <b>Message:</b> ${msg}\n\n<i>Reply command:</i> <code>/balas${currentUser} [pesan]</code>`;
-
-            try {
-                await fetch(`${TELEGRAM_API}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: OWNER_ID, text: textToSend, parse_mode: 'HTML' })
-                });
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        function addCsChatMessage(sender, text) {
-            const chatBox = document.getElementById('csChatMessages');
-            const msgDiv = document.createElement('div');
-
-            if (sender === "You") {
-                msgDiv.className = "self-end max-w-[85%] bg-cyan-600/30 text-cyan-100 p-2.5 rounded-2xl rounded-tr-none border border-cyan-500/30 ml-auto";
-                msgDiv.innerHTML = `<span class="text-[9px] text-cyan-300 font-bold block mb-0.5">Anda</span>${escapeHTML(text)}`;
-            } else {
-                msgDiv.className = "self-start max-w-[85%] bg-gray-900/90 text-gray-300 p-2.5 rounded-2xl rounded-tl-none border border-gray-800";
-                msgDiv.innerHTML = `<span class="text-[9px] text-purple-400 font-bold block mb-0.5">${sender}</span>${escapeHTML(text)}`;
-            }
-
-            chatBox.appendChild(msgDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
         // NOTIFICATIONS
         function requestNotificationPermission() {
             if ('Notification' in window) {
                 Notification.requestPermission().then(permission => {
-                    alert(permission === 'granted' ? 'Notifikasi Web Berhasil Diaktifkan!' : 'Izin notifikasi ditolak.');
+                    alert(permission === 'granted' ? 'Notifikasi Berhasil Diaktifkan!' : 'Izin notifikasi ditolak.');
                 });
             } else {
                 alert('Browser tidak mendukung Web Notifications.');
@@ -649,7 +546,7 @@
 
             const btn = document.getElementById('btnSendProofOnly');
             btn.disabled = true;
-            btn.innerText = "Mengirim Bukti...";
+            btn.innerText = "Mengirim...";
 
             const file = proofInput.files[0];
             const caption = `📌 <b>BUKTI TRANSFER DIUNGGAH</b>\n👤 User: <code>${currentUser}</code>\n📦 Produk: ${selectedProduct.name}`;
@@ -664,14 +561,14 @@
                 const res = await fetch(`${TELEGRAM_API}/sendPhoto`, { method: 'POST', body: formData });
                 const result = await res.json();
                 if (result.ok) {
-                    addChatMessage("System", "Foto bukti transfer telah terkirim ke Telegram Admin.");
+                    addChatMessage("System", "Foto bukti transfer telah terkirim ke Admin.");
                     alert("Bukti transfer terkirim!");
                 }
             } catch (err) {
                 console.error(err);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-file-arrow-up"></i> <span>Kirim Bukti Transfer</span>`;
+                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> <span>Kirim Bukti Saja</span>`;
             }
         }
 
@@ -687,9 +584,8 @@
                             `📦 <b>Produk:</b> ${selectedProduct.name}\n` +
                             `💰 <b>Harga:</b> Rp ${selectedProduct.price.toLocaleString('id-ID')} (${selectedProduct.label})\n` +
                             `⏰ <b>Waktu:</b> ${new Date().toLocaleString('id-ID')}\n\n` +
-                            `Tekan TERIMA atau TOLAK untuk merespon pengguna secara instan.`;
+                            `Tekan TERIMA atau TOLAK untuk merespon pengguna.`;
 
-            // Inline buttons TERIMA / TOLAK yang mentrigger callback data acc_{username} & rej_{username}
             const replyMarkup = {
                 inline_keyboard: [
                     [
@@ -727,11 +623,10 @@
                 const result = await res.json();
 
                 if (result.ok) {
-                    // Update teks notifikasi sesuai permintaan persis
                     document.getElementById('adminStatusMsg').innerText = 
-                        "𝘕𝘰𝘵𝘪𝘧𝘪𝘬𝘢𝘴𝘪 𝘛𝘦𝘭𝘢𝘩 𝘋𝘪𝘬𝘪𝘳𝘪𝘮 𝘒𝘦𝘱𝘢𝘥𝘢 𝘈𝘥𝘮𝘪𝘯, 𝘜𝘯𝘵𝘶𝘬 𝘔𝘦𝘳𝘦𝘴𝘱𝘰𝘯 𝘋𝘢𝘯 𝘔𝘦𝘭𝘢𝘯𝘫𝘶𝘵𝘬𝘢𝘯 𝘛𝘳𝘢𝘯𝘴𝘢𝘬𝘴𝘪, 𝘈𝘥𝘮𝘪𝘯 𝘖𝘯𝘭𝘪𝘯𝘦 𝘋𝘢𝘭𝘢𝘮 𝘚𝘦𝘬𝘪𝘵𝘢𝘳 5 𝘔𝘦𝘯𝘪𝘵 𝘈𝘵𝘢𝘶 𝘒𝘢𝘭𝘰 𝘈𝘥𝘮𝘪𝘯 𝘚𝘪𝘣𝘶𝘬 𝘉𝘪𝘴𝘢 20 𝘔𝘦𝘯𝘪𝘵, 𝘋𝘢𝘯 𝘑𝘪𝘬𝘢 𝘈𝘯𝘥𝘢 𝘐𝘯𝘨𝘪𝘯 𝘔𝘦𝘮𝘣𝘶𝘬𝘢 𝘈𝘱𝘭𝘪𝘬𝘢𝘴𝘪 𝘓𝘢𝘪𝘯 𝘚𝘢𝘺𝘢 𝘚𝘢𝘳𝘢𝘯𝘬𝘢𝘯 𝘜𝘯𝘵𝘶𝘬 𝘔𝘦𝘯𝘨𝘢𝘬𝘵𝘪𝘧𝘬𝘢𝘯 𝘛𝘰𝘮𝘣𝘰𝘭 𝘕𝘰𝘵𝘪𝘧𝘪𝘬𝘢𝘴𝘪 𝘋𝘪𝘣𝘢𝘸𝘢𝘩 𝘐𝘯𝘪 𝘉𝘪𝘢𝘳 𝘈𝘥𝘮𝘪𝘯 𝘗𝘢𝘴 𝘕𝘨𝘦𝘳𝘦𝘴𝘱𝘰𝘯 𝘈𝘯𝘥𝘢 𝘋𝘢𝘱𝘢𝘵 𝘕𝘰𝘵𝘪𝘧𝘪𝘬𝘢𝘴𝘪 𝘋𝘢𝘳𝘪 𝘈𝘥𝘮𝘪𝘯.";
+                        "Notifikasi Telah Dikirim Kepada Admin, Untuk Merespon Dan Melanjutkan Transaksi, Admin Online Dalam Sekitar 5 Menit Atau Kalau Admin Sibuk Bisa 20 Menit, Dan Jika Anda Ingin Membuka Aplikasi Lain Saya Sarankan Untuk Mengaktifkan Tombol Notifikasi Dibawah Ini Biar Admin Pas Ngerespon Anda Dapat Notifikasi Dari Admin.";
 
-                    addChatMessage("System", `Notifikasi transaksi ${selectedProduct.name} telah dikirim ke Admin.`);
+                    addChatMessage("System", `Notifikasi transaksi ${selectedProduct.name} telah dikirim.`);
                 } else {
                     alert("Gagal menghubungi Telegram Admin.");
                 }
@@ -739,11 +634,11 @@
                 console.error(err);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>𝙎𝙚𝙡𝙚𝙨𝙖𝙞 𝙏𝙧𝙖𝙣𝙨𝙛𝙚𝘳</span>`;
+                btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Selesai Transfer</span>`;
             }
         }
 
-        // CHAT ENGINE FOR CHECKOUT PAGE
+        // CHAT ENGINE
         async function sendUserChatMessage(e) {
             e.preventDefault();
             const input = document.getElementById('chatInput');
@@ -753,7 +648,7 @@
             addChatMessage("You", msg);
             input.value = "";
 
-            const textToSend = `💬 <b>CHAT DARI USER</b>\n👤 <b>Username:</b> <code>${currentUser}</code>\n✉️ <b>Pesan:</b> ${msg}\n\n<i>Balas dengan command:</i> <code>/balas${currentUser} [pesan]</code>`;
+            const textToSend = `💬 <b>CHAT DARI USER</b>\n👤 <b>Username:</b> <code>${currentUser}</code>\n✉️ <b>Pesan:</b> ${msg}\n\n<i>Balas dengan:</i> <code>/balas${currentUser} [pesan]</code>`;
 
             try {
                 await fetch(`${TELEGRAM_API}/sendMessage`, {
@@ -771,16 +666,47 @@
             const msgDiv = document.createElement('div');
 
             if (sender === "You") {
-                msgDiv.className = "self-end max-w-[85%] bg-cyan-600/30 text-cyan-100 p-3 rounded-2xl rounded-tr-none border border-cyan-500/30";
-                msgDiv.innerHTML = `<span class="text-[9px] text-cyan-300 font-bold block mb-0.5">Anda (${currentUser})</span>${escapeHTML(text)}`;
+                msgDiv.className = "self-end max-w-[85%] bg-sky-600 text-white p-2.5 rounded-lg rounded-tr-none shadow-2xs";
+                msgDiv.innerHTML = `<span class="text-[9px] text-sky-200 font-bold block mb-0.5">Anda</span>${escapeHTML(text)}`;
             } else {
-                const colorClass = isBotResponse ? "text-cyan-400" : "text-purple-400";
-                msgDiv.className = "self-start max-w-[85%] bg-gray-900/90 text-gray-300 p-3 rounded-2xl rounded-tl-none border border-gray-800";
-                msgDiv.innerHTML = `<span class="text-[9px] ${colorClass} font-bold block mb-0.5">${sender}</span>${escapeHTML(text)}`;
+                msgDiv.className = "self-start max-w-[85%] bg-slate-100 text-slate-700 p-2.5 rounded-lg rounded-tl-none border border-slate-200";
+                msgDiv.innerHTML = `<span class="text-[9px] text-sky-600 font-bold block mb-0.5">${sender}</span>${escapeHTML(text)}`;
             }
 
             chatBox.appendChild(msgDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // CUSTOMER SERVICE WIDGET LOGIC
+        function toggleCsModal() {
+            const modal = document.getElementById('csModal');
+            modal.classList.toggle('hidden');
+        }
+
+        function sendCsMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('csInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const chatBox = document.getElementById('csChatMessages');
+            
+            // User message
+            const userDiv = document.createElement('div');
+            userDiv.className = "self-end max-w-[85%] bg-sky-600 text-white p-2.5 rounded-lg rounded-tr-none text-xs";
+            userDiv.innerHTML = `<span class="text-[9px] text-sky-200 font-bold block mb-0.5">Anda</span>${escapeHTML(msg)}`;
+            chatBox.appendChild(userDiv);
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Auto reply response simulation
+            setTimeout(() => {
+                const csDiv = document.createElement('div');
+                csDiv.className = "self-start max-w-[85%] bg-white text-slate-700 p-2.5 rounded-lg rounded-tl-none border border-slate-200 text-xs shadow-2xs";
+                csDiv.innerHTML = `<span class="text-[10px] text-sky-600 font-bold block mb-0.5">SammOffc CS</span>Terima kasih atas pesan Anda. Tim support profesional kami akan segera meninjau kendala Anda.`;
+                chatBox.appendChild(csDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
         }
 
         function escapeHTML(str) {
@@ -810,7 +736,6 @@
         }
 
         function processTelegramUpdate(update) {
-            // 1. Handling Inline Keyboard Callback (TERIMA / TOLAK)
             if (update.callback_query) {
                 const cb = update.callback_query;
                 const data = cb.data;
@@ -818,29 +743,24 @@
                 if (data.startsWith("acc_")) {
                     const targetUser = data.replace("acc_", "");
                     if (targetUser === currentUser) {
-                        const notifMsg = "Bukti Transfer Benar!";
-                        addChatMessage("Admin Bot", notifMsg, true);
-                        addCsChatMessage("Admin Bot", notifMsg);
-                        triggerNotification("Transaksi Diterima!", "Bukti Transfer Benar! Pesanan Anda sedang diproses.");
+                        addChatMessage("Admin Bot", "Bukti Transfer Benar!", true);
+                        triggerNotification("Transaksi Diterima", "Bukti Transfer Benar! Pesanan diproses.");
                     }
                 } else if (data.startsWith("rej_")) {
                     const targetUser = data.replace("rej_", "");
                     if (targetUser === currentUser) {
-                        const notifMsg = "Bukti Transfer Palsu / Ditolak!";
-                        addChatMessage("Admin Bot", notifMsg, true);
-                        addCsChatMessage("Admin Bot", notifMsg);
-                        triggerNotification("Transaksi Ditolak!", "Bukti Transfer Palsu / Ditolak!");
+                        addChatMessage("Admin Bot", "Bukti Transfer Palsu / Ditolak!", true);
+                        triggerNotification("Transaksi Ditolak", "Bukti Transfer Palsu / Ditolak!");
                     }
                 }
 
                 fetch(`${TELEGRAM_API}/answerCallbackQuery`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ callback_query_id: cb.id, text: "Status diperbarui!" })
+                    body: JSON.stringify({ callback_query_id: cb.id, text: "Status diperbarui" })
                 }).catch(() => {});
             }
 
-            // 2. Handling Command /balas<username> <pesan>
             if (update.message && update.message.text) {
                 const text = update.message.text.trim();
                 const regex = /^\/balas([a-zA-Z0-9_]+)\s+(.+)$/s;
@@ -851,16 +771,8 @@
                     const replyMessage = match[2];
 
                     if (targetUsername === currentUser) {
-                        // Tampilkan balasan baik di Checkout Chat maupun Floating CS Chat Modal
-                        addChatMessage("Admin (SammOffc)", replyMessage);
-                        addCsChatMessage("Admin (SammOffc)", replyMessage);
-                        
-                        // Tampilkan badge notifikasi jika modal CS sedang tertutup
-                        if (!isCsOpen) {
-                            document.getElementById('csBadge').classList.remove('hidden');
-                        }
-
-                        triggerNotification("Pesan dari Admin", replyMessage);
+                        addChatMessage("Admin", replyMessage);
+                        triggerNotification("Pesan Admin", replyMessage);
                     }
                 }
             }
