@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jasbug & Syntax Shop - Powered By SammOffc</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            dark: '#0a0d14',
+                            card: '#121824',
+                            accent: '#00f2fe',
+                            purple: '#7928ca',
+                            pink: '#ff0080',
+                            success: '#10b981',
+                            danger: '#ef4444'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0d14;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(18, 24, 36, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-button {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(121, 40, 202, 0.2));
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .glass-button:hover {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.4), rgba(121, 40, 202, 0.4));
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+            transform: translateY(-2px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0d14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f2fe;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.6)); }
+            50% { filter: drop-shadow(0 0 25px rgba(121, 40, 202, 0.8)); }
+        }
+        .glow-effect {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        .chat-container {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+
+    <audio id="notifSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+    <!-- 1. LOADING SCREEN -->
+    <div id="loadingScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-cyber-dark">
+        <div class="relative flex items-center justify-center mb-6">
+            <div class="w-24 h-24 rounded-full border-t-2 border-b-2 border-cyan-400 animate-spin"></div>
+            <div class="w-16 h-16 rounded-full border-r-2 border-l-2 border-purple-500 animate-spin absolute" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+            <i class="fa-solid fa-code text-3xl text-cyan-400 absolute glow-effect"></i>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 mb-2">
+            𝙋𝙤𝙬𝙚𝙧𝙚𝙙 𝘽𝙮 𝙎𝙖𝙢𝙢𝙊𝙛𝙛𝙘
+        </h1>
+        <p class="text-xs text-gray-400 animate-pulse tracking-wider">Memuat Sistem Store & Transaksi...</p>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div id="appContainer" class="hidden min-h-screen flex flex-col">
+
+        <!-- NAVBAR -->
+        <nav class="glass-panel sticky top-0 z-40 px-4 py-3 flex justify-between items-center border-b border-gray-800">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-terminal text-cyan-400 text-xl"></i>
+                <span class="font-bold text-lg tracking-wider text-white">Samm<span class="text-cyan-400">Offc Store</span></span>
+            </div>
+            <div id="userInfoNav" class="hidden flex items-center gap-3">
+                <span id="navUsername" class="text-sm font-medium text-cyan-300 bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-800/50">
+                    <i class="fa-regular fa-user mr-1"></i> -
+                </span>
+                <button onclick="logout()" class="text-xs bg-red-500/20 hover:bg-red-500/40 text-red-400 px-3 py-1.5 rounded-lg border border-red-500/30 transition">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTAINER -->
+        <main class="flex-grow container mx-auto px-4 py-6 max-w-5xl flex flex-col justify-center">
+
+            <!-- 2. HALAMAN LOGIN / REGISTER -->
+            <section id="authSection" class="w-full max-w-md mx-auto">
+                <div class="glass-panel p-6 md:p-8 rounded-2xl shadow-2xl relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
+                    <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl"></div>
+
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-bold text-white mb-1">Portal Layanan</h2>
+                        <p class="text-xs text-gray-400">Masuk atau daftar untuk mengakses katalog produk.</p>
+                    </div>
+
+                    <div class="flex bg-gray-900/80 p-1 rounded-xl mb-6 border border-gray-800">
+                        <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-lg text-sm font-semibold transition text-cyan-400 bg-gray-800 shadow">
+                            Login
+                        </button>
+                        <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-2 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white">
+                            Register
+                        </button>
+                    </div>
+
+                    <div id="authAlert" class="hidden mb-4 p-3 rounded-lg text-xs font-medium border"></div>
+
+                    <!-- FORM LOGIN -->
+                    <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Username</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <i class="fa-solid fa-user text-sm"></i>
+                                </span>
+                                <input type="text" id="loginUsername" required class="w-full pl-9 pr-3 py-2.5 bg-gray-900/90 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 transition" placeholder="Masukkan username">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Password</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <i class="fa-solid fa-lock text-sm"></i>
+                                </span>
+                                <input type="password" id="loginPassword" required class="w-full pl-9 pr-3 py-2.5 bg-gray-900/90 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 transition" placeholder="••••••••">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full py-3 glass-button rounded-xl text-sm font-bold text-white tracking-wider uppercase flex items-center justify-center gap-2">
+                            <span>Masuk Akun</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                    </form>
+
+                    <!-- FORM REGISTER -->
+                    <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Username Baru</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <i class="fa-solid fa-user-plus text-sm"></i>
+                                </span>
+                                <input type="text" id="regUsername" required class="w-full pl-9 pr-3 py-2.5 bg-gray-900/90 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 transition" placeholder="Buat username unik">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Password</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <i class="fa-solid fa-key text-sm"></i>
+                                </span>
+                                <input type="password" id="regPassword" required class="w-full pl-9 pr-3 py-2.5 bg-gray-900/90 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 transition" placeholder="Minimal 6 karakter">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full py-3 glass-button rounded-xl text-sm font-bold text-white tracking-wider uppercase flex items-center justify-center gap-2">
+                            <span>Daftar Sekarang</span>
+                            <i class="fa-solid fa-check text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 3. HALAMAN WEBSITE SHOP -->
+            <section id="shopSection" class="hidden">
+                <div class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-white">Katalog Produk <span class="text-cyan-400">Resmi</span></h1>
+                        <p class="text-sm text-gray-400 mt-1">Pilih layanan Jasbug atau Script Syntax sesuai kebutuhan Anda.</p>
+                    </div>
+                    <div class="bg-gray-900/80 px-4 py-2 rounded-xl border border-gray-800 text-xs text-gray-300">
+                        <i class="fa-solid fa-signal text-green-400 mr-2"></i>Sistem Bot Tele Live
+                    </div>
+                </div>
+
+                <!-- Product Grid (7 Produk) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="productGridContainer">
+                    <!-- Dynamic Rendering via JavaScript -->
+                </div>
+            </section>
+
+            <!-- 4. HALAMAN TRANSAKSI (CHECKOUT) -->
+            <section id="checkoutSection" class="hidden">
+                <div class="mb-4">
+                    <button onclick="goToShop()" class="inline-flex items-center gap-2 text-xs text-gray-400 hover:text-cyan-400 transition mb-2">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Katalog Produk
+                    </button>
+                    <h2 class="text-2xl font-bold text-white">Detail Transaksi: <span id="selectedProdTitle" class="text-cyan-400"></span></h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Kiri: QRIS & Form Upload -->
+                    <div class="lg:col-span-6 glass-panel p-6 rounded-2xl flex flex-col items-center">
+                        <!-- Teks Pesan Transaksi -->
+                        <p id="txNoticeText" class="text-xs text-cyan-200 text-center font-medium bg-cyan-950/40 p-3 rounded-xl border border-cyan-800/40 mb-4 leading-relaxed">
+                            <!-- Text updated dynamically -->
+                        </p>
+
+                        <!-- Gambar QRIS -->
+                        <div class="relative bg-white p-3 rounded-2xl shadow-xl mb-4 max-w-[220px]">
+                            <img id="qrisImg" src="https://files.catbox.moe/cvmxrr.jpg" alt="QRIS Payment" class="w-full rounded-lg object-cover" onerror="this.src='https://placehold.co/250x250/121824/00f2fe?text=QRIS+SammOffc'">
+                        </div>
+
+                        <!-- Info Harga -->
+                        <div class="w-full bg-gray-900/80 p-3 rounded-xl border border-gray-800 mb-4 flex justify-between items-center text-xs">
+                            <span class="text-gray-400">Total Tagihan:</span>
+                            <span id="selectedProdPrice" class="text-lg font-extrabold text-cyan-400">Rp 0</span>
+                        </div>
+
+                        <!-- Upload Bukti Transfer Form -->
+                        <div class="w-full space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 mb-1.5">Upload Bukti Transfer</label>
+                                <input type="file" id="proofInput" accept="image/*" class="block w-full text-xs text-gray-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30 cursor-pointer bg-gray-900/60 rounded-xl border border-gray-700">
+                            </div>
+
+                            <button id="btnSendProofOnly" onclick="sendProofNotificationOnly()" class="w-full py-2.5 bg-gray-800 hover:bg-gray-700 text-cyan-300 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 border border-cyan-500/30">
+                                <i class="fa-solid fa-file-arrow-up"></i>
+                                <span>Kirim Bukti Transfer</span>
+                            </button>
+
+                            <button id="btnFinishTx" onclick="submitTransaction()" class="w-full py-3.5 glass-button rounded-xl text-sm font-extrabold text-white tracking-wider flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>𝙎𝙚𝙡𝙚𝙨𝙖𝙞 𝙏𝙧𝙖𝙣𝙨𝙛𝙚𝙧</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Kanan: Status & Live Chat Admin -->
+                    <div class="lg:col-span-6 flex flex-col gap-4">
+                        <!-- Alert Box Notifikasi Admin -->
+                        <div id="noticeBox" class="glass-panel p-4 rounded-2xl border-l-4 border-cyan-400 relative">
+                            <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-info"></i> Status Konfirmasi
+                            </h4>
+                            <p id="adminStatusMsg" class="text-[11px] text-gray-300 leading-relaxed italic">
+                                Lakukan transfer sesuai nominal lalu upload bukti pembayaran di sebelah kiri.
+                            </p>
+
+                            <div class="mt-3 pt-3 border-t border-gray-800/80 flex items-center justify-between">
+                                <span class="text-[10px] text-gray-400">Aktifkan Notifikasi Web:</span>
+                                <button onclick="requestNotificationPermission()" class="text-[10px] bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 px-3 py-1 rounded-lg transition flex items-center gap-1">
+                                    <i class="fa-regular fa-bell"></i>
+                                    <span>Aktifkan Notif</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- LIVE CHAT BOX -->
+                        <div class="glass-panel p-4 rounded-2xl flex-grow flex flex-col justify-between border border-gray-800">
+                            <div class="flex items-center justify-between pb-3 border-b border-gray-800 mb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="relative flex h-2.5 w-2.5">
+                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+                                    </span>
+                                    <span class="text-xs font-bold text-white">Live Support Telegram Bot</span>
+                                </div>
+                                <span class="text-[10px] text-gray-500">Auto Polling</span>
+                            </div>
+
+                            <div id="chatMessages" class="chat-container space-y-3 pr-1 text-xs mb-3 flex flex-col">
+                                <div class="self-start max-w-[85%] bg-gray-900/90 text-gray-300 p-3 rounded-2xl rounded-tl-none border border-gray-800">
+                                    <span class="text-[9px] text-cyan-400 font-bold block mb-0.5">SammOffc Bot</span>
+                                    Halo! Setelah melakukan pembayaran, tekan tombol <b>𝙎𝙚𝙡𝙚𝙨𝙖𝙞 𝙏𝙧𝙖𝙣𝙨𝙛𝙚𝙧</b> untuk memanggil Admin.
+                                </div>
+                            </div>
+
+                            <form onsubmit="sendUserChatMessage(event)" class="flex gap-2">
+                                <input type="text" id="chatInput" placeholder="Ketik pesan ke Admin..." class="flex-grow bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400">
+                                <button type="submit" class="glass-button px-4 py-2 rounded-xl text-white text-xs font-bold flex items-center justify-center">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="glass-panel py-3 px-4 text-center text-xs text-gray-500 border-t border-gray-800 mt-6">
+            © 2026 <span class="text-cyan-400 font-semibold">𝙋𝙤𝙬𝙚𝙧𝙚𝙙 𝘽𝙮 𝙎𝙖𝙢𝙢Ofscc</span>. All Rights Reserved.
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC ENGINE -->
+    <script>
+        // CONFIGURATION TELEGRAM BOT
+        const BOT_TOKEN = "8667535139:AAHxGffhHUUQGaJMj1eEvPiYozaAG_f6yrc";
+        const OWNER_ID = "8448243337";
+        const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
+
+        // PRODUCTS DATA (7 Produk Sesuai Request)
+        const PRODUCTS = [
+            { id: 1, name: "Jasbug", price: 4000, label: "4k", desc: "Layanan pengerjaan & penanganan bug khusus secara professional.", icon: "fa-bug", color: "cyan" },
+            { id: 2, name: "Script Syntax No Up", price: 7000, label: "7k", desc: "Script syntax versi standar tanpa update berkala.", icon: "fa-code", color: "purple" },
+            { id: 3, name: "Script Syntax Reseller", price: 15000, label: "15k", desc: "Akses hak jual kembali script syntax khusus reseller.", icon: "fa-store", color: "blue" },
+            { id: 4, name: "Script Syntax Partner", price: 25000, label: "25k", desc: "Kemitraan resmi dengan dukungan fitur script eksklusif.", icon: "fa-handshake", color: "emerald" },
+            { id: 5, name: "Script Syntax TK", price: 35000, label: "35k", desc: "Versi TK fitur lengkap untuk pengerjaan skala menengah.", icon: "fa-layer-group", color: "amber" },
+            { id: 6, name: "Script Syntax Moderator", price: 45000, label: "45k", desc: "Hak akses moderator serta kontrol penuh fitur syntax.", icon: "fa-user-shield", color: "pink" },
+            { id: 7, name: "Script Syntax Owner", price: 50000, label: "50k", desc: "Akses kasta tertinggi (Owner Level) full akses tanpa batas.", icon: "fa-crown", color: "red" }
+        ];
+
+        // GLOBAL STATE
+        let currentUser = null;
+        let selectedProduct = null;
+        let lastUpdateId = 0;
+        let pollingInterval = null;
+
+        // INITIALIZATION
+        window.onload = function() {
+            renderProductCatalog();
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                document.getElementById('appContainer').classList.remove('hidden');
+                checkSession();
+            }, 2000);
+        };
+
+        function renderProductCatalog() {
+            const container = document.getElementById('productGridContainer');
+            container.innerHTML = PRODUCTS.map(prod => `
+                <div class="glass-panel p-5 rounded-2xl relative flex flex-col justify-between border border-gray-800 hover:border-cyan-500/50 transition duration-300 group">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-lg group-hover:scale-110 transition">
+                                <i class="fa-solid ${prod.icon}"></i>
+                            </div>
+                            <span class="text-xs font-bold text-cyan-300 bg-cyan-950/60 px-2.5 py-1 rounded-full border border-cyan-800/50">
+                                Rp ${prod.price.toLocaleString('id-ID')} (${prod.label})
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-1.5">${prod.name}</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">${prod.desc}</p>
+                    </div>
+                    <div class="pt-3 border-t border-gray-800/80 flex items-center justify-between">
+                        <span class="text-[10px] text-gray-500">Powered By SammOffc</span>
+                        <button onclick="openCheckout(${prod.id})" class="px-4 py-2 glass-button rounded-xl text-xs font-bold text-white flex items-center gap-1.5">
+                            <span>Beli Sekarang</span>
+                            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // AUTHENTICATION LOGIC
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('samm_users') || '{}');
+        }
+
+        function checkSession() {
+            const savedUser = localStorage.getItem('samm_logged_user');
+            if (savedUser) {
+                currentUser = savedUser;
+                showShopPage();
+            } else {
+                showAuthPage();
+            }
+        }
+
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const regForm = document.getElementById('registerForm');
+            const tabLoginBtn = document.getElementById('tabLoginBtn');
+            const tabRegBtn = document.getElementById('tabRegisterBtn');
+            const alertBox = document.getElementById('authAlert');
+
+            alertBox.classList.add('hidden');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                regForm.classList.add('hidden');
+                tabLoginBtn.className = "flex-1 py-2 rounded-lg text-sm font-semibold transition text-cyan-400 bg-gray-800 shadow";
+                tabRegBtn.className = "flex-1 py-2 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white";
+            } else {
+                loginForm.classList.add('hidden');
+                regForm.classList.remove('hidden');
+                tabRegBtn.className = "flex-1 py-2 rounded-lg text-sm font-semibold transition text-cyan-400 bg-gray-800 shadow";
+                tabLoginBtn.className = "flex-1 py-2 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white";
+            }
+        }
+
+        function showAuthAlert(msg, type = 'error') {
+            const alertBox = document.getElementById('authAlert');
+            alertBox.classList.remove('hidden');
+            alertBox.className = type === 'error' 
+                ? "mb-4 p-3 rounded-lg text-xs font-medium border bg-red-500/10 border-red-500/30 text-red-400"
+                : "mb-4 p-3 rounded-lg text-xs font-medium border bg-green-500/10 border-green-500/30 text-green-400";
+            alertBox.innerText = msg;
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value.trim().toLowerCase();
+            const password = document.getElementById('regPassword').value.trim();
+
+            if (!username || !password) return showAuthAlert('Semua data wajib diisi!');
+
+            const users = getUsers();
+            if (users[username]) return showAuthAlert('Username sudah terdaftar!');
+
+            users[username] = { password: password };
+            localStorage.setItem('samm_users', JSON.stringify(users));
+            
+            showAuthAlert('Registrasi Berhasil! Silahkan Login.', 'success');
+            setTimeout(() => {
+                switchAuthTab('login');
+                document.getElementById('loginUsername').value = username;
+            }, 1000);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            const users = getUsers();
+            if (!users[username] || users[username].password !== password) {
+                return showAuthAlert('Username atau password salah!');
+            }
+
+            currentUser = username;
+            localStorage.setItem('samm_logged_user', username);
+            showShopPage();
+        }
+
+        function logout() {
+            localStorage.removeItem('samm_logged_user');
+            currentUser = null;
+            if (pollingInterval) clearInterval(pollingInterval);
+            showAuthPage();
+        }
+
+        // VIEW ROUTING
+        function showAuthPage() {
+            document.getElementById('authSection').classList.remove('hidden');
+            document.getElementById('shopSection').classList.add('hidden');
+            document.getElementById('checkoutSection').classList.add('hidden');
+            document.getElementById('userInfoNav').classList.add('hidden');
+        }
+
+        function showShopPage() {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('shopSection').classList.remove('hidden');
+            document.getElementById('checkoutSection').classList.add('hidden');
+            document.getElementById('userInfoNav').classList.remove('hidden');
+            document.getElementById('navUsername').innerHTML = `<i class="fa-regular fa-user mr-1"></i> ${currentUser}`;
+            startTelegramPolling();
+        }
+
+        function openCheckout(productId) {
+            selectedProduct = PRODUCTS.find(p => p.id === productId);
+            if (!selectedProduct) return;
+
+            document.getElementById('selectedProdTitle').innerText = selectedProduct.name;
+            document.getElementById('selectedProdPrice').innerText = `Rp ${selectedProduct.price.toLocaleString('id-ID')} (${selectedProduct.label})`;
+            document.getElementById('txNoticeText').innerText = `𝘚𝘪𝘭𝘢𝘩𝘬𝘢𝘯 𝘵𝘳𝘢𝘯𝘴𝘧𝘦𝘳 𝘬𝘦 𝘲𝘳𝘪𝘴 𝘥𝘪𝘣𝘢𝘸𝘢𝘩 𝘪𝘯𝘪 𝘶𝘯𝘵𝘶𝘬 𝘮𝘦𝘭𝘢𝘯𝘫𝘶𝘵𝘬𝘢𝘯 𝘵𝘳𝘢𝘯𝘴𝘢𝘬𝘴𝘪 ${selectedProduct.name}.`;
+
+            document.getElementById('shopSection').classList.add('hidden');
+            document.getElementById('checkoutSection').classList.remove('hidden');
+        }
+
+        function goToShop() {
+            document.getElementById('checkoutSection').classList.add('hidden');
+            document.getElementById('shopSection').classList.remove('hidden');
+        }
+
+        // NOTIFICATIONS
+        function requestNotificationPermission() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    alert(permission === 'granted' ? 'Notifikasi Web Berhasil Diaktifkan!' : 'Izin notifikasi ditolak.');
+                });
+            } else {
+                alert('Browser tidak mendukung Web Notifications.');
+            }
+        }
+
+        function triggerNotification(title, body) {
+            const sound = document.getElementById('notifSound');
+            if (sound) sound.play().catch(() => {});
+
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(title, {
+                    body: body,
+                    icon: 'https://files.catbox.moe/cvmxrr.jpg'
+                });
+            }
+        }
+
+        // TELEGRAM BOT ACTIONS
+        async function sendProofNotificationOnly() {
+            const proofInput = document.getElementById('proofInput');
+            if (!proofInput.files || proofInput.files.length === 0) {
+                alert('Pilih berkas/foto bukti transfer terlebih dahulu!');
+                return;
+            }
+
+            const btn = document.getElementById('btnSendProofOnly');
+            btn.disabled = true;
+            btn.innerText = "Mengirim Bukti...";
+
+            const file = proofInput.files[0];
+            const caption = `📌 <b>BUKTI TRANSFER DIUNGGAH</b>\n👤 User: <code>${currentUser}</code>\n📦 Produk: ${selectedProduct.name}`;
+
+            const formData = new FormData();
+            formData.append('chat_id', OWNER_ID);
+            formData.append('photo', file);
+            formData.append('caption', caption);
+            formData.append('parse_mode', 'HTML');
+
+            try {
+                const res = await fetch(`${TELEGRAM_API}/sendPhoto`, { method: 'POST', body: formData });
+                const result = await res.json();
+                if (result.ok) {
+                    addChatMessage("System", "Foto bukti transfer telah terkirim ke Telegram Admin.");
+                    alert("Bukti transfer terkirim!");
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-file-arrow-up"></i> <span>Kirim Bukti Transfer</span>`;
+            }
+        }
+
+        async function submitTransaction() {
+            if (!selectedProduct) return;
+
+            const btn = document.getElementById('btnFinishTx');
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Memproses...</span>`;
+
+            const caption = `🚨 <b>TRANSAKSI BARU SELESAI TRANSFER</b> 🚨\n\n` +
+                            `👤 <b>Username:</b> <code>${currentUser}</code>\n` +
+                            `📦 <b>Produk:</b> ${selectedProduct.name}\n` +
+                            `💰 <b>Harga:</b> Rp ${selectedProduct.price.toLocaleString('id-ID')} (${selectedProduct.label})\n` +
+                            `⏰ <b>Waktu:</b> ${new Date().toLocaleString('id-ID')}\n\n` +
+                            `Tekan TERIMA atau TOLAK untuk merespon pengguna secara instan.`;
+
+            // Inline buttons TERIMA / TOLAK yang mentrigger callback data acc_{username} & rej_{username}
+            const replyMarkup = {
+                inline_keyboard: [
+                    [
+                        { text: "✅ TERIMA", callback_data: `acc_${currentUser}` },
+                        { text: "❌ TOLAK", callback_data: `rej_${currentUser}` }
+                    ]
+                ]
+            };
+
+            const proofInput = document.getElementById('proofInput');
+            let fetchUrl = `${TELEGRAM_API}/sendMessage`;
+            let bodyData;
+
+            if (proofInput.files && proofInput.files.length > 0) {
+                fetchUrl = `${TELEGRAM_API}/sendPhoto`;
+                const formData = new FormData();
+                formData.append('chat_id', OWNER_ID);
+                formData.append('photo', proofInput.files[0]);
+                formData.append('caption', caption);
+                formData.append('parse_mode', 'HTML');
+                formData.append('reply_markup', JSON.stringify(replyMarkup));
+                bodyData = formData;
+            } else {
+                bodyData = JSON.stringify({
+                    chat_id: OWNER_ID,
+                    text: caption,
+                    parse_mode: 'HTML',
+                    reply_markup: replyMarkup
+                });
+            }
+
+            try {
+                const headers = (proofInput.files && proofInput.files.length > 0) ? {} : { 'Content-Type': 'application/json' };
+                const res = await fetch(fetchUrl, { method: 'POST', headers: headers, body: bodyData });
+                const result = await res.json();
+
+                if (result.ok) {
+                    // Update teks notifikasi sesuai permintaan persis
+                    document.getElementById('adminStatusMsg').innerText = 
+                        "𝘕𝘰𝘵𝘪𝘧𝘪𝘬𝘢𝘴𝘪 𝘛𝘦𝘭𝘢𝘩 𝘋𝘪𝘬𝘪𝘳𝘪𝘮 𝘒𝘦𝘱𝘢𝘥𝘢 𝘈𝘥𝘮𝘪𝘯, 𝘜𝘯𝘵𝘶𝘬 𝘔𝘦𝘳𝘦𝘴𝘱𝘰𝘯 𝘋𝘢𝘯 𝘔𝘦𝘭𝘢𝘯𝘫𝘶𝘵𝘬𝘢𝘯 𝘛𝘳𝘢𝘯𝘴𝘢𝘬𝘴𝘪, 𝘈𝘥𝘮𝘪𝘯 𝘖𝘯𝘭𝘪𝘯𝘦 𝘋𝘢𝘭𝘢𝘮 𝘚𝘦𝘬𝘪𝘵𝘢𝘳 5 𝘔𝘦𝘯𝘪𝘵 𝘈𝘵𝘢𝘶 𝘒𝘢𝘭𝘰 𝘈𝘥𝘮𝘪𝘯 𝘚𝘪𝘣𝘶𝘬 𝘉𝘪𝘴𝘢 20 𝘔𝘦𝘯𝘪𝘵, 𝘋𝘢𝘯 𝘑𝘪𝘬𝘢 𝘈𝘯𝘥𝘢 𝘐𝘯𝘨𝘪𝘯 𝘔𝘦𝘮𝘣𝘶𝘬𝘢 𝘈𝘱𝘭𝘪𝘬𝘢𝘴𝘪 𝘓𝘢𝘪𝘯 𝘚𝘢𝘺𝘢 𝘚𝘢𝘳𝘢𝘯𝘬𝘢𝘯 𝘜𝘯𝘵𝘶𝘬 𝘔𝘦𝘯𝘨𝘢𝘬𝘵𝘪𝘧𝘬𝘢𝘯 𝘛𝘰𝘮𝘣𝘰𝘭 𝘕𝘰𝘵𝘪𝘧𝘪𝘬𝘢𝘴𝘪 𝘋𝘪𝘣𝘢𝘸𝘢𝘩 𝘐𝘯𝘪 𝘉𝘪𝘢𝘳 𝘈𝘥𝘮𝘪𝘯 𝘗𝘢𝘴 𝘕𝘨𝘦𝘳𝘦𝘴𝘱𝘰𝘯 𝘈𝘯𝘥𝘢 𝘋𝘢𝘱𝘢𝘵 𝘕𝘰𝘵𝘪𝘧𝘪𝘬𝘢𝘴𝘪 𝘋𝘢𝘳𝘪 𝘈𝘥𝘮𝘪𝘯.";
+
+                    addChatMessage("System", `Notifikasi transaksi ${selectedProduct.name} telah dikirim ke Admin.`);
+                } else {
+                    alert("Gagal menghubungi Telegram Admin.");
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>𝙎𝙚𝙡𝙚𝙨𝙖𝙞 𝙏𝙧𝙖𝙣𝙨𝙛𝙚𝙧</span>`;
+            }
+        }
+
+        // CHAT ENGINE
+        async function sendUserChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            addChatMessage("You", msg);
+            input.value = "";
+
+            const textToSend = `💬 <b>CHAT DARI USER</b>\n👤 <b>Username:</b> <code>${currentUser}</code>\n✉️ <b>Pesan:</b> ${msg}\n\n<i>Balas dengan command:</i> <code>/balas${currentUser} [pesan]</code>`;
+
+            try {
+                await fetch(`${TELEGRAM_API}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: OWNER_ID, text: textToSend, parse_mode: 'HTML' })
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function addChatMessage(sender, text, isBotResponse = false) {
+            const chatBox = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+
+            if (sender === "You") {
+                msgDiv.className = "self-end max-w-[85%] bg-cyan-600/30 text-cyan-100 p-3 rounded-2xl rounded-tr-none border border-cyan-500/30";
+                msgDiv.innerHTML = `<span class="text-[9px] text-cyan-300 font-bold block mb-0.5">Anda (${currentUser})</span>${escapeHTML(text)}`;
+            } else {
+                const colorClass = isBotResponse ? "text-cyan-400" : "text-purple-400";
+                msgDiv.className = "self-start max-w-[85%] bg-gray-900/90 text-gray-300 p-3 rounded-2xl rounded-tl-none border border-gray-800";
+                msgDiv.innerHTML = `<span class="text-[9px] ${colorClass} font-bold block mb-0.5">${sender}</span>${escapeHTML(text)}`;
+            }
+
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
+
+        // TELEGRAM POLLING & CALLBACK PARSER
+        function startTelegramPolling() {
+            if (pollingInterval) clearInterval(pollingInterval);
+            pollingInterval = setInterval(fetchTelegramUpdates, 2500);
+        }
+
+        async function fetchTelegramUpdates() {
+            try {
+                const res = await fetch(`${TELEGRAM_API}/getUpdates?offset=${lastUpdateId + 1}&timeout=0`);
+                const data = await res.json();
+
+                if (data.ok && data.result.length > 0) {
+                    data.result.forEach(update => {
+                        lastUpdateId = update.update_id;
+                        processTelegramUpdate(update);
+                    });
+                }
+            } catch (err) {
+                console.error("Polling Error:", err);
+            }
+        }
+
+        function processTelegramUpdate(update) {
+            // 1. Handling Inline Keyboard Callback (TERIMA / TOLAK)
+            if (update.callback_query) {
+                const cb = update.callback_query;
+                const data = cb.data;
+
+                if (data.startsWith("acc_")) {
+                    const targetUser = data.replace("acc_", "");
+                    if (targetUser === currentUser) {
+                        const notifMsg = "Bukti Transfer Benar!";
+                        addChatMessage("Admin Bot", notifMsg, true);
+                        triggerNotification("Transaksi Diterima!", "Bukti Transfer Benar! Pesanan Anda sedang diproses.");
+                    }
+                } else if (data.startsWith("rej_")) {
+                    const targetUser = data.replace("rej_", "");
+                    if (targetUser === currentUser) {
+                        const notifMsg = "Bukti Transfer Palsu / Ditolak!";
+                        addChatMessage("Admin Bot", notifMsg, true);
+                        triggerNotification("Transaksi Ditolak!", "Bukti Transfer Palsu / Ditolak!");
+                    }
+                }
+
+                fetch(`${TELEGRAM_API}/answerCallbackQuery`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ callback_query_id: cb.id, text: "Status diperbarui!" })
+                }).catch(() => {});
+            }
+
+            // 2. Handling Command /balas<username> <pesan>
+            if (update.message && update.message.text) {
+                const text = update.message.text.trim();
+                // Regex fleksibel mendukung /balasbudi, /balas_budi, dll.
+                const regex = /^\/balas([a-zA-Z0-9_]+)\s+(.+)$/s;
+                const match = text.match(regex);
+
+                if (match) {
+                    const targetUsername = match[1].toLowerCase();
+                    const replyMessage = match[2];
+
+                    if (targetUsername === currentUser) {
+                        addChatMessage("Admin (SammOffc)", replyMessage);
+                        triggerNotification("Pesan dari Admin", replyMessage);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
